@@ -1,17 +1,33 @@
 import { useState } from "react";
-import { Alert, Button, StyleSheet, TextInput, View } from "react-native";
+import {
+  Alert,
+  Button,
+  StyleSheet,
+  TextInput,
+  View,
+  ActivityIndicator,
+} from "react-native";
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+
+const Loading = () => {
+  return <ActivityIndicator onPress={cadastrar} size={50} color="blue" />;
+};
 
 const Cadastro = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const cadastrar = () => {
     if (!email || !senha) {
       Alert.alert("Atenção", "Você deve preencher e-mail e senha");
       return;
     }
+
+    const Loading = () => {
+      return <ActivityIndicator size={50} color="black" />;
+    };
 
     createUserWithEmailAndPassword(auth, email, senha)
       .then(() => {

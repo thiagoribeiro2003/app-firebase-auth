@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { Button, StyleSheet, TextInput, View, Alert } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  TextInput,
+  View,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 
 /* Importamos os recursos de autenticação atráves das configurações firebase */
 import { auth } from "../firebaseConfig";
@@ -13,6 +20,7 @@ import {
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const login = () => {
     if (!email || !senha) {
@@ -20,8 +28,11 @@ const Login = ({ navigation }) => {
       return; // parar o processo
     }
 
+    setLoading(true);
+
     signInWithEmailAndPassword(auth, email, senha)
       .then(() => {
+        setLoading(false);
         navigation.navigate("AreaLogada");
       })
       .catch((error) => {
@@ -39,6 +50,9 @@ const Login = ({ navigation }) => {
         }
 
         Alert.alert("Ops!", mensagem);
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
@@ -67,7 +81,15 @@ const Login = ({ navigation }) => {
           secureTextEntry
         />
         <View style={estilos.botoes}>
-          <Button title="Entre" color="green" onPress={login} />
+          <Button
+            disabled={loading}
+            title="Entre"
+            color="green"
+            onPress={login}
+          />
+
+          {loading && <ActivityIndicator size="large" color="green" />}
+
           <Button
             title="Recuperar senha"
             color="lightgreen"
