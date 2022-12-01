@@ -8,13 +8,34 @@ const Cadastro = () => {
   const [senha, setSenha] = useState("");
 
   const cadastrar = () => {
-    Alert.alert("Cadastrar...");
     if (!email || !senha) {
       Alert.alert("Atenção", "Você deve preencher e-mail e senha");
       return;
     }
 
-    createUserWithEmailAndPassword(auth, email, senha);
+    createUserWithEmailAndPassword(auth, email, senha)
+      .then(() => {
+        Alert.alert("Cadastro", "Conta criada com sucesso");
+      })
+      .catch((error) => {
+        console.log(error);
+        let mensagem;
+        switch (error.code) {
+          case "auth/email-already-in-use":
+            mensagem = "E-mail já cadastrado!";
+            break;
+          case "auth/weak-password":
+            mensagem = "Senha deve ter pelo menos 6 dígitos!";
+            break;
+          case "auth/invalid-email":
+            mensagem = "Endereço de e-mail inválido!";
+            break;
+          default:
+            mensagem = "Algo deu errado... tente novamente!";
+            break;
+        }
+        Alert.alert("Atenção!", mensagem);
+      });
   };
 
   return (
