@@ -10,10 +10,6 @@ import {
 import { auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 
-const Loading = () => {
-  return <ActivityIndicator onPress={cadastrar} size={50} color="blue" />;
-};
-
 const Cadastro = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
@@ -25,10 +21,7 @@ const Cadastro = ({ navigation }) => {
       return;
     }
 
-    const Loading = () => {
-      return <ActivityIndicator size={50} color="black" />;
-    };
-
+    setLoading(true);
     createUserWithEmailAndPassword(auth, email, senha)
       .then(() => {
         Alert.alert("Cadastro", "Conta criada com sucesso", [
@@ -66,7 +59,8 @@ const Cadastro = ({ navigation }) => {
             break;
         }
         Alert.alert("Atenção!", mensagem);
-      });
+      })
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -85,7 +79,14 @@ const Cadastro = ({ navigation }) => {
           onChangeText={(valor) => setSenha(valor)}
         />
         <View style={estilos.botoes}>
-          <Button onPress={cadastrar} title="Cadastre-se" color="blue" />
+          <Button
+            disabled={loading}
+            onPress={cadastrar}
+            title="Cadastre-se"
+            color="blue"
+          />
+
+          {loading && <ActivityIndicator size="large" color="blue" />}
         </View>
       </View>
     </View>
