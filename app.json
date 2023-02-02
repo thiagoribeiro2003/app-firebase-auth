@@ -12,9 +12,12 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/5fa4889a-4247-4227-bf5e-71bb3095b45e"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -32,6 +35,9 @@
         "projectId": "5fa4889a-4247-4227-bf5e-71bb3095b45e"
       }
     },
-    "owner": "thiagoribeiro2022"
+    "owner": "thiagoribeiro2022",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }
